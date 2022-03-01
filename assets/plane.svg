@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="27.604" height="25.854" viewBox="0 0 27.604 25.854">
+  <g id="Group_1528" data-name="Group 1528" transform="translate(-158.266 -296.72)">
+    <g id="Ellipse_321" data-name="Ellipse 321" transform="translate(158.266 296.72)" fill="#fff" stroke="#c9d8e2" stroke-width="1">
+      <ellipse cx="12.5" cy="12.75" rx="12.5" ry="12.75" stroke="none"/>
+      <ellipse cx="12.5" cy="12.75" rx="12" ry="12.25" fill="none"/>
+    </g>
+    <g id="baseline-airplanemode_active-24px" transform="translate(171.494 297.365) rotate(37)">
+      <path id="Path_1017" data-name="Path 1017" d="M0,0" transform="translate(7.635 6.75)" fill="#6391af"/>
+      <path id="Path_1018" data-name="Path 1018" d="M14.25,10.5V9l-6-3.75V1.125a1.125,1.125,0,1,0-2.25,0V5.25L0,9v1.5L6,8.625V12.75L4.5,13.875V15l2.625-.75L9.75,15V13.875L8.25,12.75V8.625Z" transform="translate(-0.042 2.944)" fill="#6391af"/>
+      <path id="Path_1019" data-name="Path 1019" d="M0,0H18V18H0Z" transform="translate(0 0)" fill="none"/>
+    </g>
+  </g>
+</svg>
