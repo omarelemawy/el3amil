@@ -202,7 +202,9 @@ class EditYourData extends StatelessWidget {
                                       passController.text);
 
                                 }
-                                Utils().showMyDialog(SimpleIconDialog(title: "Hello",body: "تم  أرسال التعديل  أنتظر المراجعة والتأكيد",icon : Icon(Icons.credit_card)), context);
+                                Utils().showMyDialog(SimpleIconDialog(title: "Hello",
+                                    body: "تم  أرسال التعديل  أنتظر المراجعة والتأكيد",
+                                    icon : Icon(Icons.credit_card)), context);
                               },
                               child: Text(
                                   "ارسال"

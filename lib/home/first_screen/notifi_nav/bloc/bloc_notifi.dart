@@ -9,7 +9,7 @@ import 'package:mosafer1/shared/netWork/end_point.dart';
 
 class NotifiBloc extends Cubit<NotifiStates>{
   NotifiBloc() : super(LoadingNotifications());
-
+  static NotifiBloc get(context) => BlocProvider.of(context);
   List<Notifications> notifications = [];
   HttpOps _httpOps = HttpOps();
 

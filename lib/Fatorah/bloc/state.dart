@@ -6,10 +6,11 @@ class InitialFatorahState extends FatorahState{}
 class LoadingFatorahState extends FatorahState{}
 class LoadedFatorahState extends FatorahState{
   FatorahModel fatorahModel;
-  int totalFatorahPrice = 0;
-  LoadedFatorahState(this.fatorahModel){
-    fatorahModel.fatorahItems.forEach((element) {
-      totalFatorahPrice += int.parse(element.value);
-    });
+  LoadedFatorahState(this.fatorahModel);
   }
+class GetLoadingFatorahResponseStates extends FatorahState{}
+class GetSuccessFatorahResponseStates extends FatorahState{}
+class GetErrorFatorahResponseStates extends FatorahState{
+  String error;
+  GetErrorFatorahResponseStates(this.error);
 }

@@ -1,7 +1,9 @@
 
-import 'package:flutter/cupertino.dart';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mosafer1/Complaint/ComplaintsPage.dart';
 import 'package:mosafer1/home/first_screen/chat_nav/bloc/state_chat.dart';
 import 'package:mosafer1/model/all-request-services.dart';
 import 'package:mosafer1/shared/netWork/Api.dart';
@@ -69,8 +71,8 @@ class ChatBloc extends Cubit<ChatStates> {
       "accept": 0,
       "copon": ""
     };
-
-    GetAllRequestServicesModel responseModel = await _httpOps.postData(endPoint: responseToFatorahUrl,auth: true , mapData: data);
+    GetAllRequestServicesModel responseModel = await _httpOps.postData(endPoint:
+    responseToFatorahUrl,auth: true , mapData: data);
     print("Msg : ${responseModel.dataObj}");
     if(responseModel.status){
       return responseModel.dataObj["msg"];
@@ -85,4 +87,19 @@ class ChatBloc extends Cubit<ChatStates> {
     emit(NewImageState());
   }
 
+  Future<String> createComplaint({int chat_id,context}) async {
+    var data = {
+      "subject": "he take money5 from me i'am user",
+      "chat_id":chat_id,
+    };
+    GetAllRequestServicesModel responseModel = await _httpOps.postData(endPoint:
+    CreateComplaintsRoomUrl,auth: true , mapData: data);
+    print("Msg : ${responseModel.dataObj}");
+    if(responseModel.status){
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>ComplaintesPage()));
+      return responseModel.dataObj["msg"];
+    }else{
+      return "";
+    }
+  }
 }

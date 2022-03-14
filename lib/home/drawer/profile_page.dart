@@ -77,23 +77,24 @@ class ProfilePage extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Number Of Trips",style: TextStyle(color: Colors.black),),
+                          Text("عدد رحلاتك",style: TextStyle(color: Colors.black),),
                           Container(
                             padding: EdgeInsets.all(10),
                             decoration:BoxDecoration(
                               color:Colors.white,
                               shape: BoxShape.circle
                             ),
-                              child: Text("0")),
-                          Text("Negative points",style: TextStyle(color: Colors.black)),
+                              child: Text("2")),
+                          Text("نقاط سلبية",style: TextStyle(color: Colors.black)),
                           Container(
                               padding: EdgeInsets.all(10),
                               decoration:BoxDecoration(
                                   color:Colors.white,
                                   shape: BoxShape.circle
                               ),
-                              child: Text("0")),
-                          Text("Bargains",style: TextStyle(color: Colors.black)),
+                              child: Text(DrawerCubit.get(context).
+                              mosafrInformationModel.data.negativePointsCount.toString())),
+                          Text("الصفقات",style: TextStyle(color: Colors.black)),
                           Container(
                               padding: EdgeInsets.all(10),
                               decoration:BoxDecoration(

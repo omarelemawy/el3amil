@@ -24,14 +24,15 @@ class ComplainRoomCubit extends Cubit<ComplaintRoomState> {
   ComplainRoomCubit() : super(ComplaintRoomLoadingState());
 
   HttpOps _httpOps = HttpOps();
-  void getComplaintRoomInfo({int userId,int msaferId}) async {
+  void getComplaintRoomInfo({int userId,int msaferId,related_chat}) async {
 
     var data = {
       "user_id": userId,
-      "masafr_id":msaferId
+      "masafr_id":msaferId,
+      "related_chat":related_chat
     };
     GetAllRequestServicesModel responseModel = await _httpOps.postData(auth: true , endPoint: complaintsRoomUrl,mapData: data);
-    emit(ComplaintRoomLoadedSuccessState(ComplaintRoom.fromMap(responseModel.dataObj["main_subject"])));
+    emit(ComplaintRoomLoadedSuccessState(ComplaintRoom.fromMap(responseModel.dataObj)));
   }
 
 }

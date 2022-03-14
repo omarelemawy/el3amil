@@ -44,7 +44,9 @@ class _ComplaintInfoPageState extends State<ComplaintInfoPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BlocProvider(
-                  create: (context)=> ComplainRoomCubit()..getComplaintRoomInfo(msaferId: widget.complaint.masafr.id,userId:widget.complaint.user.id ),
+                  create: (context)=> ComplainRoomCubit()..getComplaintRoomInfo
+                    (msaferId: widget.complaint.masafr.id,userId:widget.complaint.user.id
+                      ,related_chat: widget.complaint.related_chat),
                   child: BlocConsumer<ComplainRoomCubit,ComplaintRoomState>(
                     builder: (context,state){
                       if(state is ComplaintRoomLoadedSuccessState)
@@ -66,13 +68,26 @@ class _ComplaintInfoPageState extends State<ComplaintInfoPage> {
                                               color: MyTheme.mainAppColor,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        CircleAvatar(
-                                          radius: 50,
-                                          backgroundImage: NetworkImage(
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFXjhzMO9qkPIXzK2vqlvhOt8uwkRfXZkzH7xv6uHjRwTdYH9fPJIzV1tQcgyDsGjAJ-c&usqp=CAU'),
+                                        ClipOval(
+                                          child: FadeInImage.assetNetwork(
+                                            height: 80,
+                                            width: 80,
+                                            placeholderCacheHeight: 80,
+                                            placeholderCacheWidth: 80,
+                                            placeholder: "assets/man.png",
+                                            image: CacheHelper.getData(key: "photo"),
+                                            imageErrorBuilder: (context,o,c)=>ClipOval(
+                                              child: Image.network(
+                                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFXjhzMO9qkPIXzK2vqlvhOt8uwkRfXZkzH7xv6uHjRwTdYH9fPJIzV1tQcgyDsGjAJ-c&usqp=CAU',
+                                                height: 80,
+                                                width: 80,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                         Text(
-                                          "ناصر فهد",
+                                          CacheHelper.getData(key: "name"),
                                         ),
                                         Text(
                                           "رقم الطلب : " + "${widget.complaint.related_request_service}",
@@ -99,13 +114,26 @@ class _ComplaintInfoPageState extends State<ComplaintInfoPage> {
                                               color: MyTheme.mainAppColor,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        CircleAvatar(
-                                          radius: 50,
-                                          backgroundImage: NetworkImage(
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFXjhzMO9qkPIXzK2vqlvhOt8uwkRfXZkzH7xv6uHjRwTdYH9fPJIzV1tQcgyDsGjAJ-c&usqp=CAU'),
+                                        ClipOval(
+                                          child: FadeInImage.assetNetwork(
+                                            height: 80,
+                                            width: 80,
+                                            placeholderCacheHeight: 80,
+                                            placeholderCacheWidth: 80,
+                                            placeholder: "assets/man.png",
+                                            image: widget.complaint.masafr.photo,
+                                            imageErrorBuilder: (context,o,c)=>ClipOval(
+                                              child: Image.network(
+                                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFXjhzMO9qkPIXzK2vqlvhOt8uwkRfXZkzH7xv6uHjRwTdYH9fPJIzV1tQcgyDsGjAJ-c&usqp=CAU',
+                                                height: 80,
+                                                width: 80,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                         Text(
-                                          "موسى محمد خالد",
+                                         widget.complaint.masafr.name,
                                         ),
                                         Text(
                                           "رقم الرحلة : " + "${widget.complaint.related_trip}",
@@ -120,10 +148,10 @@ class _ComplaintInfoPageState extends State<ComplaintInfoPage> {
                               color: MyTheme.mainAppBlueColor,
                               width: size.width,
                               alignment: Alignment.center,
-                              child: Text(
+                              child: widget.complaint.created_at==null?Text(
                                 DateFormat.yMMMd().format(DateTime.parse(widget.complaint.created_at)),
                                 style: TextStyle(color: Colors.white),
-                              ),
+                              ):SizedBox(),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),

@@ -31,7 +31,6 @@ class _HomeNavState extends State<HomeNav> {
         builder: (context,state){
           List<RequestServices> allRequestsSe = HomeCubit.get(context).allRequestsSe;
           return Scaffold(
-
             body: state is GetLoadingAllRequestServicesStates?
             Center(child: CircularProgressIndicator()):Padding(
               padding: const EdgeInsets.only(bottom: 20.0,top: 10,right: 10,left: 10),
@@ -171,9 +170,9 @@ class _HomeNavState extends State<HomeNav> {
                                           ],
                                         ),
                                         SizedBox(width: 9,),
-                                        allRequestsSe[index].maxDay==null?SizedBox():
+                                        allRequestsSe[index].endDate==""?SizedBox():
                                         CountdownTimer(
-                                          endTime: DateTime.parse(allRequestsSe[index].maxDay).millisecondsSinceEpoch,
+                                          endTime: DateTime.parse(allRequestsSe[index].endDate).millisecondsSinceEpoch,
                                           widgetBuilder: (_, CurrentRemainingTime time) {
                                             if (time == null) {
                                               return Text("طلب منتهي");

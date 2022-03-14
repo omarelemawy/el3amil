@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Container(
                           child: state is LoadedAddState ? Column(
                             children: [
-                              Container(
+                              /*state.addList.isEmpty?SizedBox():*/Container(
                                 height: 45,
                                 color: Colors.white,
                                 padding: const EdgeInsets.only(
@@ -85,20 +85,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: appTheme.textTheme.overline,
                                     ),
                                     TextButton(onPressed: () {
-                                      _launchURL(state.addList[0].link);
+                                      _launchURL("https://www.facebook.com/");
                                     }, child: Text("اذهب"),
 
                                     )
                                   ],
                                 ),
                               ),
-                              Container(
+                              /*state.addList.isEmpty?SizedBox():*/Container(
                                   width: size.width,
                                   height: 40,
                                   padding: const EdgeInsets.only(
                                       left: 8, right: 8, bottom: 2, top: 2),
                                   child: Marquee(
-                                    text: state.addList[0].subject +
+                                    text: "اعلان جديد" +
                                         "                            ",
                                     style: appTheme.textTheme.bodyText1,
                                     velocity: 20.0,

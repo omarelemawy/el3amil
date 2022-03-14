@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosafer1/home/homeScreen.dart';
 import 'package:mosafer1/login/bloc/state.dart';
 import 'package:http/http.dart'as http;
+import 'package:mosafer1/login/login.dart';
 import 'package:mosafer1/shared/netWork/local/cache_helper.dart';
 
 import '../more_register_info.dart';
@@ -138,7 +139,7 @@ class LoginBloc extends Cubit<LoginStates>{
       if (data["msg"] == "User Data has been updated ! ") {
         emit(SendCodeSuccessState());
         Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (context)=>MoreRegisterInfo()),
+            MaterialPageRoute(builder: (context)=>LoginScreen()),
                 (route) => false);
       }
       else {

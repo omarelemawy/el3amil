@@ -12,6 +12,8 @@ import 'dart:ui' as ui;
 
 class FatorahPage extends StatelessWidget {
   bool _checked = false;
+  int id;
+  FatorahPage(this.id);
   @override
   Widget build(BuildContext context) {
     final FatorahCubit fatorahCubit = BlocProvider.of<FatorahCubit>(context);
@@ -44,7 +46,7 @@ class FatorahPage extends StatelessWidget {
           child: SingleChildScrollView(
             padding: const EdgeInsets.only(top: 60, bottom: 20),
             child: BlocProvider<FatorahCubit>(
-              create: (context) => FatorahCubit()..getFatorah(1),
+              create: (context) => FatorahCubit()..getFatorah(id),
               child: BlocConsumer<FatorahCubit,FatorahState>(
                 listener: (context,state){},
                 builder: (context,state) {
@@ -90,7 +92,7 @@ class FatorahPage extends StatelessWidget {
                                       Text(
                                           "  تاريخ الطلب  " +
                                               DateFormat.yMMMMEEEEd()
-                                                  .format(DateTime.parse(state.fatorahModel.createdAt)),
+                                                  .format(DateTime.parse(state.fatorahModel.fatoorah[0].createdAt)),
                                           style: MyTheme.defaultAppTextTheme()
                                               .textTheme
                                               .headline2),
@@ -121,16 +123,16 @@ class FatorahPage extends StatelessWidget {
                                       Utils.vSpace(15),
                                       Column(
                                         children: List<Widget>.generate(
-                                          state.fatorahModel.fatorahItems.length,
+                                          state.fatorahModel.fatoorah.length,
                                               (index) => Padding(
                                             child: Row(
                                               children: [
-                                                Text(state.fatorahModel.fatorahItems[index].subject,
+                                                Text(state.fatorahModel.fatoorah[index].subject,
                                                     style: MyTheme.defaultAppTextTheme()
                                                         .textTheme
                                                         .bodyText1),
                                                 Spacer(),
-                                                Text("${state.fatorahModel.fatorahItems[index].value} ر.س",
+                                                Text("${state.fatorahModel.fatoorah[index].value} ر.س",
                                                     style: MyTheme.defaultAppTextTheme()
                                                         .textTheme
                                                         .bodyText1),
@@ -190,7 +192,7 @@ class FatorahPage extends StatelessWidget {
                                                     .headline2),
                                             Spacer(),
                                             Text(
-                                                state.totalFatorahPrice.toString() +
+                                                state.fatorahModel.fatoorah[0].value.toString() +
                                                     " ر.س ",
                                                 style:
                                                 MyTheme.defaultAppTextTheme()
@@ -255,7 +257,11 @@ class FatorahPage extends StatelessWidget {
                             Utils.hSpace(20),
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  FatorahCubit.get(context).getFatorahResponse(id,"1").then((value) {
+                                    Navigator.pop(context,value);
+                                  });
+                                },
                                 child: Text("دفع الكتروني "),
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
@@ -266,11 +272,28 @@ class FatorahPage extends StatelessWidget {
                             Utils.hSpace(10),
                             Expanded(
                               child: OutlinedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  FatorahCubit.get(context).getFatorahResponse(id,"1").then((value) {
+                                    Navigator.pop(context,value);
+                                  });
+                                },
+                                child: Text("دفع  يدوي "),
+                                style: ButtonStyle(),
+                              ),
+                            ),
+                            Utils.hSpace(10),
+                            Expanded(
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  FatorahCubit.get(context).getFatorahResponse(id,"0").then((value){
+                                    Navigator.pop(context,value);
+                                  });
+                                },
                                 child: Text("رفض"),
                                 style: ButtonStyle(),
                               ),
                             ),
+
                             Utils.hSpace(20),
                           ],
                         ),

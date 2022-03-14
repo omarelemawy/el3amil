@@ -16,7 +16,8 @@ class ChatData {
 
   Stream<QuerySnapshot> chatRoomStream(var chatRoomId) => _firestore.collection("ChatRooms/$chatRoomId/Messages").orderBy("time",descending: false).snapshots();
 
-  Stream<QuerySnapshot> complainChatRoomStream(var chatRoomId) => _firestore.collection("ComplaintChatRooms/$chatRoomId/Messages").orderBy("time",descending: false).snapshots();
+  Stream<QuerySnapshot> complainChatRoomStream(var chatRoomId) =>
+      _firestore.collection("ComplaintChatRooms/$chatRoomId/Messages").orderBy("time",descending: false).snapshots();
 
   Future sendMessage({var chatRoomId , Message message,bool isComplaint = false}) async {
     String imgUrl = "";
@@ -43,16 +44,16 @@ class ChatData {
     return ChatRoom.toList(responseModel.dataObj['data']);
   }
 
-  Future<int> getOrCreateChatRoom(int userId,int msaferId) async {
+  Future<int> getOrCreateChatRoom(int userId,int msaferId,related_trip) async {
 
     Map data    =   {
-      "paginateCount" : 10,
       "user_id" : userId,
-      "masafr_id" : msaferId
+      "masafr_id" : msaferId,
+      "related_trip":related_trip
     };
 
     GetAllRequestServicesModel responseModel = await _httpOps.postData(endPoint: createChatRoom,auth: true , mapData: data);
-    return responseModel.dataObj != null ? responseModel.dataObj["id"] as int : 0;
+    return responseModel.dataObj != null ? responseModel.dataObj as int : 0;
 
   }
 }

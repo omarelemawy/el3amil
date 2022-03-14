@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:mosafer1/home/first_screen/chat_nav/MessengerPage/ChatMessengerScreen.dart';
 import 'package:mosafer1/model/all-request-services.dart';
 import 'package:mosafer1/shared/Constats.dart';
@@ -31,10 +32,12 @@ class _TravelDetailsPageState extends State<TravelDetailsPage> {
   ];
   @override
   void initState() {
-    polylinePoints = [
-      MapLatLng(24.7255553, 46.5423402),
-      MapLatLng(25.2794268, 45.8516119),
-    ];
+    getLocation().then((value) {
+      polylinePoints = [
+        MapLatLng(value[0].latitude, value[0].longitude),
+        MapLatLng(value[1].latitude, value[1].longitude),
+      ];
+    });
     super.initState();
   }
 
@@ -58,42 +61,50 @@ class _TravelDetailsPageState extends State<TravelDetailsPage> {
       body: Stack(
         alignment: Alignment.topRight,
         children: [
-          SfMaps(
-            layers: [
-              MapTileLayer(
-                initialFocalLatLng: MapLatLng(24.7255553, 46.5423402),
-                initialZoomLevel: 8,
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                sublayers: [
-                  MapPolylineLayer(
-                    polylines: Set.of([
-                      MapPolyline(
-                        points: polylinePoints,
-                      )
-                    ]),
-                  ),
-                ],
-                initialMarkersCount: 2,
-                markerBuilder: (context, index) {
-                  if (index == 0) {
-                    return MapMarker(
-                        iconColor: Colors.white,
-                        iconStrokeColor: Colors.blue,
-                        iconStrokeWidth: 2,
-                        latitude: polylinePoints[index].latitude,
-                        longitude: polylinePoints[index].longitude);
-                  }
-                  return MapMarker(
-                      iconColor: Colors.white,
-                      iconStrokeColor: Colors.blue,
-                      iconStrokeWidth: 2,
-                      latitude:
-                          polylinePoints[polylinePoints.length - 1].latitude,
-                      longitude:
-                          polylinePoints[polylinePoints.length - 1].longitude);
-                },
-              ),
-            ],
+          FutureBuilder<List<Location>>(
+              future: getLocation(),
+              builder:  (context,snap) {
+                if(snap.hasData) {
+                  return SfMaps(
+                    layers: [
+                      MapTileLayer(
+                        initialFocalLatLng: MapLatLng(snap.data[0].latitude, snap.data[0].longitude),
+                        initialZoomLevel: 4,
+                        urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        sublayers: [
+                          MapPolylineLayer(
+                            polylines: Set.of([
+                              MapPolyline(
+                                points: polylinePoints,
+                              )
+                            ]),
+                          ),
+                        ],
+                        initialMarkersCount: 2,
+                        markerBuilder: (context, index) {
+                          if (index == 0) {
+                            return MapMarker(
+                                iconColor: Colors.white,
+                                iconStrokeColor: Colors.blue,
+                                iconStrokeWidth: 2,
+                                latitude: snap.data[0].latitude,
+                                longitude: snap.data[0].longitude);
+                          }
+                          return MapMarker(
+                              iconColor: Colors.white,
+                              iconStrokeColor: Colors.blue,
+                              iconStrokeWidth: 2,
+                              latitude:
+                              snap.data[1].latitude,
+                              longitude:
+                              snap.data[1].longitude);
+                        },
+                      ),
+                    ],
+                  );
+                }
+                return CircularProgressIndicator();
+              }
           ),
           Padding(
             child: Column(
@@ -127,9 +138,14 @@ class _TravelDetailsPageState extends State<TravelDetailsPage> {
             children: [
               if(CacheHelper.getData(key: "id") != null ) Padding(
                 child: ElevatedButton(
+
                   onPressed: () {
+                    print(CacheHelper.getData(key: "id"));
+                    print(widget.requestServices.user.id);
+                    print(widget.requestServices.id);
                     if(widget.requestServices.user != null && CacheHelper.getData(key: "id") != null){
-                      _chatData.getOrCreateChatRoom(CacheHelper.getData(key: "id"), int.parse(widget.requestServices.userId)).then((value) {
+                      _chatData.getOrCreateChatRoom(CacheHelper.getData(key: "id"),
+                          widget.requestServices.user.id,widget.requestServices.id).then((value) {
                         print("Chat room : ${value}");
                         Navigator.push(
                             context,
@@ -306,5 +322,16 @@ class _TravelDetailsPageState extends State<TravelDetailsPage> {
         ],
       ),
     );
+  }
+  Future<List<Location>> getLocation()async {
+    List<Location> locations=[];
+    List<Location> locations3 = await locationFromAddress("الرياض");
+    List<Location> locations4 = await locationFromAddress("مكه");
+    List<Location> locations1 = await locationFromAddress(widget.requestServices.fromPlace).onError((error, stackTrace) => null);
+    List<Location> locations2 = await locationFromAddress(widget.requestServices.toPlace).onError((error, stackTrace) => null);
+
+    locations.add(locations1==null?locations3[0]:locations1[0]);
+    locations.add(locations2==null?locations4[0]:locations2[0]);
+    return locations;
   }
 }

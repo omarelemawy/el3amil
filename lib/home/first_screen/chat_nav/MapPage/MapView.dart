@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:mosafer1/shared/Utils.dart';
@@ -110,10 +110,10 @@ class MapPageState extends State<MapPage> {
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(currentLocation.longitude,currentLocation.longitude),zoom: 14)));
   }
   Future<String> _decode(location) async {
-    var addresses = await Geocoder.local.findAddressesFromCoordinates(Coordinates(location.latitude,location.longitude));
+    var addresses = await placemarkFromCoordinates(location.latitude,location.longitude);
     if(addresses != null ){
       var first = addresses.first;
-      return first.addressLine;
+      return first.administrativeArea;
     }
     return "مكان غير معروف";
   }

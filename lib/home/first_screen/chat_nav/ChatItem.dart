@@ -30,11 +30,17 @@ class ChatListItem extends StatelessWidget {
             ),
             Padding(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     chatRoom.client.name,
-                    style: appTheme.textTheme.headline1,
+                    style: TextStyle(color: Colors.black,fontSize: 15),
+                  ),
+                  chatRoom.requestServiceChatRoom==null?SizedBox():
+                  Text(
+                    chatRoom.requestServiceChatRoom.service.categorieName,
+                    style: TextStyle(color: Colors.grey,fontSize: 13),
                   ),
                 ],
               ),

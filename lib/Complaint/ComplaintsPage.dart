@@ -13,7 +13,7 @@ class ComplaintesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("صفحة المسافر"),
+        title: Text("صفحة الشكاوي"),
         centerTitle: true,
       ),
       body: Directionality(
@@ -24,16 +24,21 @@ class ComplaintesPage extends StatelessWidget {
               listener: (context,state){},
               builder: (context,state){
                 if(state is ComplaintListLoadedSuccessState) {
-                  return ListView.builder(
+                  return state.complaints.isEmpty?
+                      Center(child: Text("لا يوجد شكاوي")):
+                  ListView.builder(
                       itemCount: state.complaints.length,
                       itemBuilder: (context, index) => ComplaintItem(
                         complaint: state.complaints[index],
                         index: index,
                         onPress: () {
                           Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => ComplaintInfoPage(complaint: state.complaints[index],)));
+                              context, MaterialPageRoute(builder: (context) =>
+                              ComplaintInfoPage(complaint:
+                          state.complaints[index],)));
                         },
-                        onUserPress: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> MosaferProfilePage())),
+                        onUserPress: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                            MosaferProfilePage( state.complaints[index].masafr.id))),
                       ));
                 }
                 return Center(child: CircularProgressIndicator(),);
@@ -138,9 +143,17 @@ class ComplaintItem extends StatelessWidget {
                     "رقم الطلب  : " + "${complaint.id}",
                     style: TextStyle(color: Colors.white),
                   ),
-                  Text(
-                    "شكوى مقدمة من  ناصر فهد",
-                    style: TextStyle(color: Colors.white),
+                  Row(
+                    children: [
+                      Text(
+                        "  شكوى مقدمة من : ",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        "${complaint.masafr.name}  ",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
                   )
                 ],
               ),

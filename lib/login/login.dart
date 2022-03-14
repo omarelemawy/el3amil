@@ -166,8 +166,9 @@ class LoginScreen extends StatelessWidget {
                                   onPressed: (){
                                     LoginBloc.get(context).loginUser(context, emailController.text, passController.text)
                                         .then((value) {
-                                      if(value==false&&state is LoginErrorState){
-                                        keyScaffold.currentState.showSnackBar(SnackBar(content:Text(state.error)));
+                                      if(value==false){
+                                        keyScaffold.currentState.showSnackBar(SnackBar(content:Text
+                                          ("تأكد من ادخال رقم هاتف ورقم مرور صحيح")));
                                       }
                                     });
                                   },

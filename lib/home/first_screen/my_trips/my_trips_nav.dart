@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:mosafer1/home/drawer/drawer.dart';
 import 'package:mosafer1/home/first_screen/add_trip_nav/add_trip.dart';
+import 'package:mosafer1/home/first_screen/add_trip_nav/bloc/bloc_add_trip.dart';
 
 import 'package:mosafer1/home/first_screen/my_trips/bloc/state_my_trips.dart';
 import 'package:mosafer1/login/login.dart';
@@ -101,7 +102,10 @@ class MyTripsNav extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 bottom: 20.0, top: 10, right: 10, left: 10),
-                            child: ListView.separated(
+                            child: allMyTrips.isEmpty?
+                            Center(child: Text("لا يوجد لديك رحلات",
+                              style: TextStyle(color: MyTheme.mainAppBlueColor,fontSize: 18),)):
+                            ListView.separated(
                               itemBuilder: (context, index) => RequestItem(
                                 isFromMain: isFromMain,
                                 request: allMyTrips[index],
@@ -133,11 +137,13 @@ class RequestItem extends StatelessWidget {
   RequestServices request;
   VoidCallback onTripClick;
   RequestItem({this.isFromMain = true, this.request, this.onTripClick});
-
-  Duration expireDate;
+/*
+  Duration expireDate;*/
   @override
   Widget build(BuildContext context) {
-    expireDate =  DateTime.parse(request.maxDay).difference(DateTime.now());
+    /*expireDate = request.maxDay==""?DateTime.parse("2022-02-14").
+    difference(DateTime.now()):
+    DateTime.parse(request.maxDay).difference(DateTime.now());*/
     print("Expire ${request.photo}");
     return IntrinsicHeight(
       child: Column(
@@ -231,6 +237,7 @@ class RequestItem extends StatelessWidget {
                               Text("ينتهي الطلب خلال"),
                             ],
                           ),
+                          request.maxDay==""?SizedBox():
                           CountdownTimer(
                             endTime: DateTime.parse(request.maxDay).millisecondsSinceEpoch,
                             widgetBuilder: (_, CurrentRemainingTime time) {
@@ -343,7 +350,7 @@ class RequestItem extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ElevatedButton(
+                        /*ElevatedButton(
                           onPressed: () {},
                           child: Text(
                             "تعديل",
@@ -356,12 +363,14 @@ class RequestItem extends StatelessWidget {
                                   RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(20)))),
-                        ),
+                        ),*/
                         Text(" رقم الطلب :  ${request.id}",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 16)),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                                MyTripsBloc.get(context).deleteTrip(request.id,context);
+                            },
                             icon: Icon(
                               Icons.restore_from_trash,
                               color: Colors.white,

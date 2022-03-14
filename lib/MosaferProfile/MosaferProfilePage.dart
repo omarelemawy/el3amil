@@ -11,6 +11,8 @@ import 'package:mosafer1/shared/styles/thems.dart';
 import 'dart:ui' as ui;
 
 class MosaferProfilePage extends StatefulWidget {
+  int id;
+  MosaferProfilePage(this.id);
   @override
   _MosaferProfilePageState createState() => _MosaferProfilePageState();
 }
@@ -27,7 +29,7 @@ class _MosaferProfilePageState extends State<MosaferProfilePage> {
       body: Directionality(
           textDirection: ui.TextDirection.rtl,
           child: BlocProvider(
-              create: (BuildContext context) => DrawerCubit()..getgetMosaferInform(id: 1),
+              create: (BuildContext context) => DrawerCubit()..getgetMosaferInform(id: widget.id),
               child: BlocConsumer<DrawerCubit, DrawerState>(
                   listener: (BuildContext context, state) {},
                   builder: (BuildContext context, state) {

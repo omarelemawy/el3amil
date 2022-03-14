@@ -25,7 +25,8 @@ import 'package:mosafer1/shared/netWork/local/cache_helper.dart';
 import 'package:mosafer1/shared/styles/thems.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:speed_dial_fab/speed_dial_fab.dart';
-
+import 'package:flutter/material.dart';
+import 'package:mosafer1/shared/styles/thems.dart';
 
 class ChatMessengerScreen extends StatefulWidget {
   final chatRoomId;
@@ -47,6 +48,7 @@ class _ChatMessengerScreenState extends State<ChatMessengerScreen> {
   bool _isActive = false;
   @override
   void initState() {
+    print(widget.chatRoomId);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
 
       chatBloc = BlocProvider.of<ChatBloc>(context);
@@ -98,7 +100,9 @@ class _ChatMessengerScreenState extends State<ChatMessengerScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          chatBloc.createComplaint(chat_id: widget.chatRoomId,context: context,);
+                        },
                         child: Text("بلاغ"),
                         style: ButtonStyle(
                             backgroundColor:
@@ -139,7 +143,8 @@ class _ChatMessengerScreenState extends State<ChatMessengerScreen> {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
-              } else if (state is LoadedChatStates || state is NewMessage || state is NewImageState) {
+              } else if (state is LoadedChatStates || state is NewMessage || state is NewImageState)
+              {
                 moveChat();
                 return chatBloc==null?CircularProgressIndicator():
                 ListView.builder(
@@ -151,7 +156,57 @@ class _ChatMessengerScreenState extends State<ChatMessengerScreen> {
                     appTheme: appTheme,
                     message: chatBloc.messages[index],
                     isCurrentUser: true,
-                    onEnterButtonPress: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> FatorahPage())),
+                    onEnterButtonPress: () async{
+                      print(chatBloc.messages[index].additionalData["id"]);
+                      FatorahReqModel request = await Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                          FatorahPage(chatBloc.messages[index].additionalData["id"])));
+                      if(request != null){
+                        print("Request : ${request}");
+                        if(request.subject.userMsg.isNotEmpty){
+                          Message msg = Message(
+                              user: User.forChat(
+                                CacheHelper.getData(key: "id"),
+                                CacheHelper.getData(key: "name"),
+                                CacheHelper.getData(key: "photo"),
+                                "idPhoto",
+                                "email",
+                              ),
+                              message: request.subject.userMsg,
+                              messageImage: "",
+                              additionalData: {
+                                "code" : "",
+                                "id" : request.subject.masafrMsg==null?"":request.subject.masafrMsg,
+                                "message" : ""
+                              },
+                              messageType: MessageType.Response,
+                              time: Timestamp.now().toString(),
+                              seen: false,
+                              isCurrentUser: true);
+                          await _chatData.sendMessage(chatRoomId: widget.chatRoomId,message: msg);
+                        }else{
+                          Message msg = Message(
+                              user: User.forChat(
+                                CacheHelper.getData(key: "id"),
+                                CacheHelper.getData(key: "name"),
+                                CacheHelper.getData(key: "photo"),
+                                "idPhoto",
+                                "email",
+                              ),
+                              message: "تم رفض الفتورة انشأ فتورة جديده",
+                              messageImage: "",
+                              additionalData: {
+                                "code" : "",
+                                "id" : request.subject.masafrMsg==null?"":request.subject.masafrMsg,
+                                "message" : ""
+                              },
+                              messageType: MessageType.reject,
+                              time: Timestamp.now().toString(),
+                              seen: false,
+                              isCurrentUser: true);
+                          await _chatData.sendMessage(chatRoomId: widget.chatRoomId,message: msg);
+                        }
+                      }
+                    }
                   ),
                 );
               } else if(state is NoMessageChatStates) {
@@ -330,7 +385,7 @@ class _ChatMessengerScreenState extends State<ChatMessengerScreen> {
                         : Padding(
                           padding: const EdgeInsets.only(left: 80,right: 25),
                           child: SizedBox(
-                            width: size.width*0.8,
+                            width: size.width*0.7,
                             child: SlidingUpPanel(
                               color: Colors.transparent,
                               maxHeight: 80,
@@ -342,7 +397,7 @@ class _ChatMessengerScreenState extends State<ChatMessengerScreen> {
                                 children: [
                                   Container(
                                     height: 60,
-                                    width: size.width*0.75,
+                                    width: size.width*0.7,
                                     padding: const EdgeInsets.all(13),
                                     decoration: BoxDecoration(
                                         color: MyTheme.mainAppBlueColor,
@@ -357,10 +412,14 @@ class _ChatMessengerScreenState extends State<ChatMessengerScreen> {
                                             child: Padding(
                                               child: ElevatedButton(
                                                 onPressed: () async {
-                                                  RequestServices request = await Navigator.push(context, MaterialPageRoute(builder: (context) => MyTripsNav(context,isFromMain: false,)));
+                                                  RequestServices request = await
+                                                  Navigator.push(context,
+                                                      MaterialPageRoute(builder: (context) =>
+                                                          MyTripsNav(context,isFromMain: false,)));
                                                   if(request != null){
                                                     print("Request : ${request.id}");
-                                                    String messageText = await chatBloc.createNegotiationRequest(request_id: request.id,chat_id: widget.chatRoomId);
+                                                    String messageText = await chatBloc.
+                                                    createNegotiationRequest(request_id: request.id,chat_id: widget.chatRoomId);
                                                     if(messageText.isNotEmpty){
                                                       Message msg = Message(
                                                           user: User.forChat(
@@ -624,3 +683,6 @@ class _ChatMessengerScreenState extends State<ChatMessengerScreen> {
     super.dispose();
   }
 }
+
+
+

@@ -7,6 +7,11 @@ class ChangeBottomSheetState extends AddTripStates{}
 class ChangeCheckBoxState extends AddTripStates{}
 class ChangeState extends AddTripStates{}
 class AddIteOfInformLocState extends AddTripStates{}
+
+class AddTripGetImageFirstDesignState extends AddTripStates{}
+class AddTripGetImageSecondDesignState extends AddTripStates{}
+class AddTripGetImageThirdDesignState extends AddTripStates{}
+
 class AddIteOfInformState extends AddTripStates{}
 class ChangeSwitchValueState extends AddTripStates{}
 class GetErrorGetAllMainTripCategoriresStates extends AddTripStates{

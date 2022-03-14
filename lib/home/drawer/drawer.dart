@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:mosafer1/home/drawer/free_service.dart';
 import 'package:mosafer1/home/drawer/profile_page.dart';
+import 'package:mosafer1/home/drawer/terms_and_policies.dart';
 import 'package:mosafer1/home/homeScreen.dart';
 import 'package:mosafer1/login/login.dart';
 import 'package:mosafer1/shared/netWork/local/cache_helper.dart';
@@ -95,8 +97,7 @@ class MyDrawer extends StatelessWidget {
               ],
             ),
           ),
-
-          ListTile(
+         ListTile(
             leading: Icon(
               Icons.home,
               color: MyTheme.mainAppBlueColor,
@@ -118,8 +119,7 @@ class MyDrawer extends StatelessWidget {
                   , (route) => false);
             },
           ),
-
-          ListTile(
+          CacheHelper.getData(key: "token") != null ?ListTile(
             leading: Icon(
               Icons.person,
               color: MyTheme.mainAppBlueColor,
@@ -137,7 +137,8 @@ class MyDrawer extends StatelessWidget {
             ),
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => ProfilePage())),
-          ),
+          ):
+          SizedBox(),
           ListTile(
             leading: Icon(
               Icons.mail_outline,
@@ -157,6 +158,7 @@ class MyDrawer extends StatelessWidget {
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => CustomerService())),
           ),
+          CacheHelper.getData(key: "token") != null ?
           ListTile(
             leading: Icon(
               Icons.mail_outline,
@@ -174,8 +176,9 @@ class MyDrawer extends StatelessWidget {
               color: MyTheme.mainAppBlueColor,
             ),
             onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfilePage())),
-          ),
+                MaterialPageRoute(builder: (context) => FreeServiceScreen())),
+          ):
+          SizedBox(),
           ListTile(
             leading: Icon(
               Icons.rule_outlined,
@@ -193,7 +196,7 @@ class MyDrawer extends StatelessWidget {
               color: MyTheme.mainAppBlueColor,
             ),
             onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfilePage())),
+                MaterialPageRoute(builder: (context) => TermsAndPolicies())),
           ),
           if (CacheHelper.getData(key: "token") == null)
             ListTile(
