@@ -8,7 +8,7 @@ import 'bloc/state.dart';
 
 class VerificationMessage extends StatelessWidget {
 
-  String email;
+  int email;
   VerificationMessage(this.email);
   final GlobalKey<ScaffoldState> keyScaffold = GlobalKey<ScaffoldState>();
   TextEditingController numController = TextEditingController();
@@ -82,7 +82,7 @@ class VerificationMessage extends StatelessWidget {
                                       Text( "تم ارسال الكود الي الرقم التالي",style: TextStyle(color:
                                       HexColor("#649A3A"),
                                           fontSize: 14,fontWeight: FontWeight.bold)),
-                                      Text( "Set Verification Code",style: TextStyle(color: Colors.deepOrangeAccent,
+                                      Text( "ضع رقم التأكيد",style: TextStyle(color: Colors.deepOrangeAccent,
                                           fontSize: 20,)),
                                       SizedBox(height: 30,),
                                       Container(
@@ -93,9 +93,9 @@ class VerificationMessage extends StatelessWidget {
                                           highlightColor: Colors.blue,
                                           defaultBorderColor: Colors.black,
                                           hasTextBorderColor: Colors.green,
-                                          highlightPinBoxColor: HexColor("#649A3A"),
-                                          pinBoxWidth: 50,
-                                          pinBoxHeight: 64,
+                                          highlightPinBoxColor: Colors.white,
+                                          pinBoxWidth: 35,
+                                          pinBoxHeight: 60,
                                           hasUnderline: true,
                                           wrapAlignment: WrapAlignment.spaceAround,
                                           pinBoxDecoration:
@@ -110,7 +110,7 @@ class VerificationMessage extends StatelessWidget {
                                           highlightAnimationBeginColor: Colors.black,
                                           highlightAnimationEndColor: Colors.white12,
                                           keyboardType: TextInputType.number,
-                                          maxLength: 5,
+                                          maxLength: 6,
                                         ),
                                       ),
                                       SizedBox(height: 20,),
@@ -123,7 +123,7 @@ class VerificationMessage extends StatelessWidget {
                                         ),
                                         child: MaterialButton(onPressed: (){
                                           LoginBloc.get(context).sendCode(email, context, numController.text);
-                                        },child: Text( "Send",style: TextStyle(color: Colors.white,fontSize: 16),),),
+                                        },child: Text( "ارسال",style: TextStyle(color: Colors.white,fontSize: 16),),),
                                       )
                                     ],
                                   ),

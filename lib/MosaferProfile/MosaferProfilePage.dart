@@ -10,6 +10,8 @@ import 'package:mosafer1/shared/Widgets/SVGIcons.dart';
 import 'package:mosafer1/shared/styles/thems.dart';
 import 'dart:ui' as ui;
 
+import 'more_of_profile_page.dart';
+
 class MosaferProfilePage extends StatefulWidget {
   int id;
   MosaferProfilePage(this.id);
@@ -58,10 +60,34 @@ class _MosaferProfilePageState extends State<MosaferProfilePage> {
                                     Stack(
                                       alignment: Alignment.bottomLeft,
                                       children: [
-                                        CircleAvatar(
-                                          radius: 50,
-                                          backgroundImage: NetworkImage(
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFXjhzMO9qkPIXzK2vqlvhOt8uwkRfXZkzH7xv6uHjRwTdYH9fPJIzV1tQcgyDsGjAJ-c&usqp=CAU'),
+                                        GestureDetector(
+                                          onTap: (){
+                                            Navigator.push(context, MaterialPageRoute(builder:
+                                                (context)=>MoreOfProfilePage(widget.id)));
+                                          },
+                                          child: ClipOval(
+                                            child: FadeInImage.assetNetwork(
+                                              height: 100,
+                                              width: 100,
+                                              fit: BoxFit.fill,
+                                              placeholderFit: BoxFit.fill,
+                                              placeholderCacheHeight: 100,
+                                              placeholderCacheWidth: 100,
+                                              placeholder: "assets/man.png",
+                                              image: state.mosafrInformationModel
+                                                  .data.photo,
+                                              imageErrorBuilder:
+                                                  (context, o, c) =>
+                                                  ClipOval(
+                                                    child: Image.asset(
+                                                      "assets/man.png",
+                                                      fit: BoxFit.fill,
+                                                      height: 100,
+                                                      width: 100,
+                                                    ),
+                                                  ),
+                                            ),
+                                          ),
                                         ),
                                         if(state.mosafrInformationModel.data.isVerified == "1") Padding(
                                           padding: const EdgeInsets.all(8.0),

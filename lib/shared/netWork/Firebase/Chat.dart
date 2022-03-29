@@ -37,10 +37,11 @@ class ChatData {
   }
 
   Future<List<ChatRoom>> getChatRooms(int userId) async {
-    Map data = {};
+    Map data = {
+      "paginateCount":100
+    };
     GetAllRequestServicesModel responseModel = await _httpOps.postData(endPoint: getChatRoomsUrl,auth: true , mapData: data);
-    print("Response $responseModel");
-    print(responseModel);
+    print("Responsemmmmm ${responseModel.msg}");
     return ChatRoom.toList(responseModel.dataObj['data']);
   }
 

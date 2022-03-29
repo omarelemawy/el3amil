@@ -45,7 +45,7 @@ class _ChatNavState extends State<ChatNav> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Go To Sing In First",
+                  "اذهب لتسجيل الدخول اولا",
                   style: TextStyle(
                       color: MyTheme.mainAppBlueColor,
                       fontSize: 15,
@@ -64,7 +64,7 @@ class _ChatNavState extends State<ChatNav> {
                             (route) => false);
                   },
                   child: Text(
-                    "Go",
+                    "اذهب",
                     style: TextStyle(color: Colors.white),
                   ),
                 )

@@ -7,7 +7,6 @@ import 'package:http/http.dart'as http;
 import 'package:mosafer1/login/login.dart';
 import 'package:mosafer1/shared/netWork/local/cache_helper.dart';
 
-import '../more_register_info.dart';
 import '../verification_message.dart';
 
 
@@ -93,7 +92,7 @@ class LoginBloc extends Cubit<LoginStates>{
       'password': password,
       'country_code':country_code
     };
-    var APIURL = Uri.parse('https://msafr.we-work.pro/api/masafr/create-account');
+    var APIURL = Uri.parse('https://msafr.we-work.pro/api/user/create-account');
     var request =  http.MultipartRequest("POST", APIURL);
     http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
         'photo', filePath.path);
@@ -104,9 +103,9 @@ class LoginBloc extends Cubit<LoginStates>{
       print(value);
       var data = jsonDecode(value);
       if (data["status"] == true) {
-        print(value);
+        print(data["user id"]);
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:
-            (context)=>VerificationMessage(email))
+            (context)=>VerificationMessage(data["user id"]))
             , (route) => false);
         emit(RegisterSuccessState());
       }
@@ -124,19 +123,22 @@ class LoginBloc extends Cubit<LoginStates>{
     character = value;
     emit(ChangeGenderRegisterState());
   }
-  Future<http.StreamedResponse> sendCode(email,context,code) async {
+  Future<http.StreamedResponse> sendCode(id,context,code) async {
+    print(id);
     emit(SendCodeLoadingState());
     Map<String, String> postBody = {
-      'email': email,
-      'code': code
+      "type" : "0",
+      "id": id.toString(),
+      "code" : code
     };
-    var APIURL = Uri.parse('https://chefkhalil.com/api/register/2');
+    var APIURL = Uri.parse('https://msafr.we-work.pro/api/user/varify-account');
     var request =  http.MultipartRequest("POST", APIURL);
     request.fields.addAll(postBody);
     http.StreamedResponse response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
+      print(value);
       var data = jsonDecode(value);
-      if (data["msg"] == "User Data has been updated ! ") {
+      if (data["status"] == true) {
         emit(SendCodeSuccessState());
         Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (context)=>LoginScreen()),

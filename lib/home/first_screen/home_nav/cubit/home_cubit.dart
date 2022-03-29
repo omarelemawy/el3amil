@@ -27,7 +27,7 @@ class HomeCubit extends Cubit<HomeStates>{
   void getAllServices()
   {
     getAllRequestSer().then((value) {
-      allRequestsSe  = RequestServices.toList(value.dataObj);
+      allRequestsSe  = RequestServices.toList(value.dataObj["data"]);
     });
   }
 }

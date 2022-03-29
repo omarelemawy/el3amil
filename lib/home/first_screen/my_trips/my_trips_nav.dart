@@ -44,7 +44,7 @@ class MyTripsNav extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "Go To Sing In First",
+                            "اذهب لتسجيل الدخول اولا",
                             style: TextStyle(
                                 color: MyTheme.mainAppBlueColor,
                                 fontSize: 15,
@@ -63,7 +63,7 @@ class MyTripsNav extends StatelessWidget {
                                   (route) => false);
                             },
                             child: Text(
-                              "Go",
+                              "اذهب",
                               style: TextStyle(color: Colors.white),
                             ),
                           )

@@ -4,7 +4,9 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:mosafer1/MosaferProfile/MosaferProfilePage.dart';
 import 'package:mosafer1/Travel/TravelDetails.dart';
+import 'package:mosafer1/shared/netWork/local/cache_helper.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:mosafer1/home/first_screen/home_nav/cubit/home_cubit.dart';
@@ -53,20 +55,31 @@ class _HomeNavState extends State<HomeNav> {
                                       alignment: Alignment.bottomRight,
                                       children: [
                                         ClipOval(
-                                          child: FadeInImage.assetNetwork(
-                                            height: 80,
-                                            width: 80,
-                                            placeholderCacheHeight: 80,
-                                            placeholderCacheWidth: 80,
-                                            fit: BoxFit.cover,
-                                            placeholderFit: BoxFit.cover,
-                                            placeholder: "assets/man.png",
-                                            image: allRequestsSe[index].user.photo,
-                                            imageErrorBuilder: (context,o,c)=>ClipOval(
-                                              child: Image.asset(
-                                                "assets/man.png",
-                                                height: 80,
-                                                width: 80,
+                                          child: GestureDetector(
+                                            onTap: CacheHelper.getData(key: "token")==null?null:
+                                                (){
+                                              pushNewScreen(
+                                                context,
+                                                screen: MosaferProfilePage(allRequestsSe[index].user.id),
+                                                withNavBar: false, // OPTIONAL VALUE. True by default.
+                                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                              );
+                                            },
+                                            child: FadeInImage.assetNetwork(
+                                              height: 80,
+                                              width: 80,
+                                              placeholderCacheHeight: 80,
+                                              placeholderCacheWidth: 80,
+                                              fit: BoxFit.cover,
+                                              placeholderFit: BoxFit.cover,
+                                              placeholder: "assets/man.png",
+                                              image: allRequestsSe[index].user.photo,
+                                              imageErrorBuilder: (context,o,c)=>ClipOval(
+                                                child: Image.asset(
+                                                  "assets/man.png",
+                                                  height: 80,
+                                                  width: 80,
+                                                ),
                                               ),
                                             ),
                                           ),

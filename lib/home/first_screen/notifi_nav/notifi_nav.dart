@@ -38,7 +38,7 @@ class _NotifiNavState extends State<NotifiNav> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Go To Sing In First",
+                "اذهب لتسجيل الدخول اولا",
                 style: TextStyle(
                     color: MyTheme.mainAppBlueColor,
                     fontSize: 15,
@@ -57,7 +57,7 @@ class _NotifiNavState extends State<NotifiNav> {
                           (route) => false);
                 },
                 child: Text(
-                  "Go",
+                  "اذهب ",
                   style: TextStyle(color: Colors.white),
                 ),
               )

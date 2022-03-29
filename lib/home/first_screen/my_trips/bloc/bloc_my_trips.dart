@@ -29,7 +29,6 @@ class MyTripsBloc extends Cubit<MyTripsStates>{
       final json = jsonDecode(response.body);
       emit(GetErrorAllMyRequestServicesStates(json['msg']));
     }
-
   }
   void getMyTrip()
   {

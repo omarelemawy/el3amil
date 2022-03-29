@@ -17,12 +17,17 @@ class ChatListItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: 50,
-              height: 50,
+              width: 60,
+              height: 60,
               clipBehavior: Clip.antiAlias,
               decoration:
               BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
               child: FadeInImage.assetNetwork(
+                fit: BoxFit.fill,
+                height: 60,
+                width: 60,
+                imageCacheWidth: 60,
+                imageCacheHeight: 60,
                 placeholder: 'assets/man.png',
                 image: chatRoom.client.photo,
                 imageErrorBuilder: (context,obj,err) => Image.asset('assets/man.png'),

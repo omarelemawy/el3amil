@@ -62,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     create: (context) =>
                     BottomNavigationBloc()
                       ..getAdvertisings(),
-
                     child: BlocConsumer<BottomNavigationBloc,
                         BottomNaviagionStates>(
                       listener: (context, state) {},

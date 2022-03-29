@@ -198,7 +198,7 @@ class MyDrawer extends StatelessWidget {
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => TermsAndPolicies())),
           ),
-          if (CacheHelper.getData(key: "token") == null)
+          CacheHelper.getData(key: "token") == null?
             ListTile(
               leading: Icon(
                 Icons.login,
@@ -219,7 +219,7 @@ class MyDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (context) => LoginScreen()),
                   (c) => false),
-            ),
+            ):
           ListTile(
               leading: Icon(
                 Icons.logout,

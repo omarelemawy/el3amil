@@ -231,7 +231,7 @@ class RequestServices {
     data['updated_at'] = this.updatedAt;
     data['negotiation'] = this.negotiation;
     if (this.user != null) {
-      data['user'] = this.user.toJson();
+      data['masafr'] = this.user.toJson();
     }
     if (this.service != null) {
       data['service'] = this.service.toJson();

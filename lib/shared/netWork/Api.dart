@@ -14,10 +14,11 @@ class HttpOps {
 
   Future<GetAllRequestServicesModel> postData(
       {String endPoint, Map mapData, bool auth = true}) async {
+    print("xxxxxxxxxxxxxxx"+CacheHelper.getData(key: "token").toString());
     http.Response response = await http.post(Uri.parse(mainUrl + endPoint),
         body: json.encode(mapData), headers: auth ? {
           "Content-Type": "application/json; charset=UTF-8",
-          "authToken": _token,
+          "authToken": CacheHelper.getData(key: "token"),
     } : {});
     print("Response data : ${response.body}");
     return GetAllRequestServicesModel.fromJson(json.decode(response.body));

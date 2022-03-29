@@ -59,7 +59,7 @@ class AddTripBloc extends Cubit<AddTripStates>{
       'authToken': CacheHelper.getData(key: "token"),
     };
     response = await dio.post("https://msafr.we-work.pro/api/auth/user/create-request-service",
-        data: formData,options: Options(headers:mapData ));
+        data: formData,options: Options(headers:mapData));
 
     if (response.statusCode == 200) {
       emit(CreateTripSuccessStates());
